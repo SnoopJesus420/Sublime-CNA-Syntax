@@ -1,0 +1,63 @@
+%YAML 1.2
+---
+name: Aggressor
+file_extensions:
+  - cna
+scope: source.aggressor
+
+contexts:
+  main:
+    # Comment lines
+    - match: ^#.*
+      scope: comment.line.number-sign.aggressor
+
+    # Event handlers (e.g., on beacon_initial)
+    - match: \b(on\s+\w+)\b
+      captures:
+        1: keyword.other.event.aggressor
+
+    # Aliases (e.g., alias sysinfo)
+    - match: \b(alias\s+\w+)\b
+      captures:
+        1: keyword.other.alias.aggressor
+
+    # Malleable C2 blocks (e.g., set http_get)
+    - match: \b(set\s+\w+)\b
+      captures:
+        1: entity.name.section.malleable.aggressor
+
+    # Function calls (e.g., println, bshell, beacon_info)
+    - match: \b(println|bshell|binput|blog|beacon_info)\b
+      scope: support.function.aggressor
+
+    # IP addresses
+    - match: \b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b
+      scope: constant.numeric.ip-address.aggressor
+
+    # Strings (quoted and unquoted)
+    - match: '"[^"]*"'
+      scope: string.quoted.double.aggressor
+    - match: '\$[^\s]+'
+      scope: string.unquoted.variable.aggressor
+
+    # HTTP headers in Malleable C2 blocks
+    - match: \b(header\s+\w+\s+".*")\b
+      captures:
+        1: entity.name.tag.http.aggressor
+
+    # Transform operations (e.g., prepend, strrep)
+    - match: \b(prepend|strrep)\b
+      scope: keyword.other.transform.aggressor
+
+    # Popup menu items
+    - match: \b(popup\s+\w+|item\s+".*")\b
+      captures:
+        1: entity.name.section.popup.aggressor
+
+    # Timestamps
+    - match: \b(\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}\s+\d{4})\b
+      scope: constant.numeric.time.aggressor
+
+    # Block delimiters (curly braces)
+    - match: \{|\}
+      scope: punctuation.section.block.aggressor

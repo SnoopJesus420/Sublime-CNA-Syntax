@@ -8,7 +8,7 @@ scope: source.aggressor
 contexts:
   main:
     # Comment lines
-    - match: ^#.*
+    - match: '#.*$'
       scope: comment.line.number-sign.aggressor
 
     # Event handlers (e.g., on beacon_initial)
@@ -37,7 +37,7 @@ contexts:
     # Strings (quoted and unquoted)
     - match: '"[^"]*"'
       scope: string.quoted.double.aggressor
-    - match: '\$[^\s]+'
+    - match: '\$[a-zA-Z_][a-zA-Z0-9_]*'
       scope: string.unquoted.variable.aggressor
 
     # HTTP headers in Malleable C2 blocks
